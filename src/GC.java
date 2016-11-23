@@ -18,18 +18,15 @@ public class GC {
 		String[] dna = new String[numDNA];
 		double[] contents = new double[numDNA];
 		
-		for (int i = 0; i < 5; i++){
-			System.out.println("K");
+	
+		for (int i = 0; i < numDNA; i++){
+			System.out.println("Name " + i + ": ");
+			names[i] = readInput.nextLine();
 		}
-		int c = 0;
-		while(c < numDNA){
-			
-			System.out.println("Name " + c + ": ");
-			names[c] = readInput.nextLine();
-			
-			if (names[c] != ""){
-				c++;
-			}
+
+		for (int i = 0; i < numDNA; i++){
+			System.out.println("Name " + i + ": ");
+			names[i] = readInput.nextLine();
 		}
 		
 		for (int i = 0; i < numDNA; i++){
@@ -39,8 +36,8 @@ public class GC {
 			contents[i] = getContentGC(dna[i]);
 		}
 	
-		System.out.println(names[determine(contents)] + "/r" + contents[determine(contents)]);
-		
+		//System.out.println(names[determine(contents)] +"  " + contents[determine(contents)]);
+		System.out.println(contents[0] + " " + contents[1]);
 		
 	}
 	
@@ -53,7 +50,7 @@ public class GC {
 			}
 		}
 		
-		double percent = (gcCounter/DNA.length());
+		double percent = (gcCounter/DNA.length()) * 100.0;
 		
 		return percent;
 		
@@ -67,6 +64,7 @@ public class GC {
 			if (contents[i] > max){
 				maxIndex = i;
 				max = contents[i];
+				System.out.print("k");
 			}
 		}
 		
