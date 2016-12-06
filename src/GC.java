@@ -1,120 +1,115 @@
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class GC {
 	
-	 public static void main(String[] args){
-		
-		Scanner input = new Scanner(System.in);
-		
-		//System.out.println("Num data: ");
-		
-		int numData = 1;
-		
-		String[] name = new String[numData];
-		
-		String[] raw = new String[numData];
-		
-		double[] data = new double[numData];
-		
-		for (int i = 0; i < numData; i++){
-			
-			System.out.println("Name" + i + ": ");
-			
-			name[i] = input.nextLine();
-			
-			System.out.println("\r");
-			
-		}
-		
-		for (int i = 0; i < numData; i++){
-			
-			System.out.println("Data" + i + ": ");
-		
-			raw[i] = input.nextLine();
-			
-			System.out.println("\r");
-			
-		}
-		
-		for(int i = 0; i < numData; i++){
-			
-			data[i] = calcPer(raw[i]);
-			
-		}
-		
-		
-		int index = determine(data);
-			
-		System.out.println(name[index] + " " + data[index]);
-		
-		
-	}
+	public static double[] percents; // same indexes as data sets 
+	public static String[] dataSets;
+	public static int[] segmentPoint;
+	public static int numData = 5;
+	
+	 public static void main(String[] args) throws FileNotFoundException{
+		 
+		 String textData = new Scanner(new File("rosalind.txt")).useDelimiter("\\A").next();
+		 
+		 String[] data = new String[textData.length()];
+		 
+		 for (int i = 0; i < data.length; i++){
+			 
+			 data[i] = textData.substring(i, i+1);
+			 
+		 }
+		 
+		 segmentPoint = new int[numData+ 1];
+		 
+		 dataSets = new String[numData];
+		 
+		 separate(data, textData, ">");
+		 
+		 percents = new double[dataSets.length]; //parallel data structure
+		 
+		 for (int i = 0; i < dataSets.length; i++){
+			 
+			 percents[i] = calculate(dataSets[i]);
+			 
+		 }
+		 
+		 System.out.println(dataSets[determine(percents)].substring(1, 14)); 
+		 System.out.println("Index: " + determine(percents));
+		 System.out.println("Percent: " + percents[determine(percents)]);
+	
+	
+	 }
 	 
-	public static int findLength(String str){
-		
-		int i = 0;
-		while(str.substring(i, i+1).equals(" ")){
-			i++;
-		}
-		
-		int counter = 0;
-		while(!str.substring(i,i+1).equals(" ")){
-			
-			i++;
-			
-			counter++;
-			
-		}
-		
-		return counter;
-		
-	}
-	public static double calcPer(String DNA){
-		
-		int counter = 0;
-		
-		for (int i = 0; i < DNA.length(); i ++){
-			
-			if (DNA.substring(i,  i+1).equals("G") || DNA.substring(i,  i+1).equals("C")){
-				
-				counter++;
-				
-			}
-			
-		}
-		
-		System.out.println("LENGTH: " + DNA.length());
-		System.out.println("Count: " + counter);
-		
-		double percent = ((double)counter)/((double)DNA.length());
-		
-		return percent;
-		
-	}
-	
-	public static int determine(double[] data){
-		
-		double max = 0;
-		int maxI = 0;
-		
-		for (int i = 0; i < data.length; i++){
-			
-			if (data[i] > max){
-				
-				max = data[i];
-				
-				maxI = i;
-				
-			}
-			
-		}
-		
-		return maxI;
-		
-	}
-	
-	
-
+	 public static void separate(String[] str,String orig, String tar){ //fills dataSets array with separated data
+		 
+		 int count = 0;
+		 for (int i = 0; i < str.length; i++){
+			 
+			 if (str[i].equals(tar)){
+				 
+				 segmentPoint[count] = i;
+				 
+				 count++;
+				 
+			 } 
+		 }
+		 
+		 for (int i = 0; i <= count - 2; i++){
+			 
+			 dataSets[i] = orig.substring(segmentPoint[i], segmentPoint[i+1]); 
+			 
+		 }
+	 }
+	 
+	 
+	 public static double calculate(String str){
+		 
+		 int count = 0;
+		 int total = 0;
+		 for (int i = 14; i < str.length(); i++){
+			 if (str.substring(i, i+1).equals("C") || str.substring(i, i+1).equals("G")){
+				 
+				 count++;
+				 
+				 total++;
+			 }
+			 else if (str.substring(i, i+1).equals("T") || str.substring(i, i+1).equals("A")){
+				 
+				 total ++;
+				 
+			 }
+		 }
+		 
+		 double percent = (double)(count)/((double)(total)) * 100.00;
+		 
+		 return percent;
+		 
+	 }
+	 
+	 public static int determine(double[] percents){ // returns index of highest percent
+		 
+		 int index = 0;
+		 double maxV = 0.0;
+		 for (int i = 0; i < percents.length; i++){
+			 
+			 if (percents[i] > maxV){
+				 
+				 maxV = percents[i];
+				 
+				 index = i;
+				 
+			 }
+			 
+		 }
+		 
+		 return index;
+		 
+	 }
+	 
+	 
+	 
 }
