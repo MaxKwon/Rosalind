@@ -20,17 +20,18 @@ public class SUBS {
 		
 		for (int i = 0; i < out.length; i++){
 		
-				System.out.print(out[i]);
+				System.out.print(out[i] + " ");
 			
 		}
 		
 	}
 	
-	public static String[] separate(String str){
+	public static String[] separate(String str){ // "/" between strings and  "\" at end
 		
 		String[] ret = new String[2];
 		
 		int mIndex = 0;
+		int eIndex = 0;
 		
 		for (int i = 0; i < str.length(); i++){
 			
@@ -38,10 +39,16 @@ public class SUBS {
 				mIndex = i;
 			}
 			
+			if (str.substring(i,  i+1).equals("\\")){
+				eIndex = i;
+			}
+			
+			
 		}
 		
+		
 		ret[0] = str.substring(0, mIndex);
-		ret[1] = str.substring(mIndex + 1, str.length());
+		ret[1] = str.substring(mIndex + 1, eIndex);
 		
 		return ret;
 		
@@ -49,29 +56,46 @@ public class SUBS {
 	
 	public static int[] determine(String strIn, String strO){
 		
-		System.out.println(strO.substring(1,5).equals("ATAT"));
-		System.out.println(strIn);
-		
-		int[] indexes = new int[3];
+		int[] indexes = new int[100];
 		
 		int length = strIn.length();
 		
 		int count = 0;
 		for (int i = 0; i < strO.length() - (length - 1); i++){
 			
-			if (strO.substring(i, i + length).equals("ATAT")){
+			if (strO.substring(i, i + length).equals(strIn)){
 				
-				indexes[count] = i;
+				indexes[count] = i + 1;
 				
 				count++;
-				
-				System.out.println("L");
 				
 			}
 			
 		}
 		
-		return indexes;
+		int lengthCount = 0;
+		
+		for (int i = 0; i < indexes.length; i++){
+			
+			if (indexes[i] == 0  && i != 0){
+				
+				break;
+				
+			}
+			
+			lengthCount++;
+			
+		}
+		
+		int[] r = new int[lengthCount];
+		
+		for (int i = 0; i < lengthCount; i++){
+			
+			r[i] = indexes[i];
+			
+		}
+		
+		return r;
 		
 	}
 
