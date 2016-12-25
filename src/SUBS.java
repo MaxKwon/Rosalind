@@ -56,7 +56,7 @@ public class SUBS {
 	
 	public static int[] determine(String strIn, String strO){
 		
-		int[] indexes = new int[100];
+		int[] indexes = new int[100]; // 100 is an arbitrary value, just really high (for the application)
 		
 		int length = strIn.length();
 		
@@ -75,7 +75,7 @@ public class SUBS {
 		
 		int lengthCount = 0;
 		
-		for (int i = 0; i < indexes.length; i++){
+		for (int i = 0; i < indexes.length; i++){ // counts the number of used indexes in the array "indexes"
 			
 			if (indexes[i] == 0  && i != 0){
 				
@@ -89,7 +89,7 @@ public class SUBS {
 		
 		int[] r = new int[lengthCount];
 		
-		for (int i = 0; i < lengthCount; i++){
+		for (int i = 0; i < lengthCount; i++){ //fills the array that will actually be returned
 			
 			r[i] = indexes[i];
 			
