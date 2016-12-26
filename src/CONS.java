@@ -17,8 +17,6 @@ public class CONS {
 		
 		int num = readInput.nextInt();
 		
-		String first = readInput.nextLine();
-		
 		String[][] mat = separate(num, textData);
 		
 		int[][] profile = counter(mat);
@@ -31,19 +29,28 @@ public class CONS {
 
 	public static String[][] separate(int num, String str){
 		
-		String[][] matrix = new String[num][100];
+		String[][] matrix = new String[num][3000]; // 3000 is an arbitrary value that could hold the length of the DNA strands
 		
-		for (int j = 0; j < num; j++){
+		int row = 0;
+		int col = 0;
+		
+		for (int i = 0; i < str.length(); i++){
 			
-			System.out.println(j + 1 + ": ");
-			
-			String in = readInput.nextLine();
-			
-			length = in.length();
-			
-			for (int i = 0; i < in.length(); i++){
+			if (str.substring(i, i + 1).equals("A") ||str.substring(i, i + 1).equals("C") ||str.substring(i, i + 1).equals("G") ||str.substring(i, i + 1).equals("T")){
 				
-				matrix[j][i] = in.substring(i, i+1);
+				matrix[row][col] = str.substring(i, i + 1);
+				
+				col++;
+				
+			}
+			
+			if (i < str.length() - 1 && str.substring(i + 1, i + 2).equals(">")){
+				
+				row++;
+				
+				length = col;
+				
+				col = 0;
 				
 			}
 			
